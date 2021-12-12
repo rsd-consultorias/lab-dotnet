@@ -38,20 +38,28 @@ namespace Exemplo.Core.ApplicationServices
             var novoFuncionario = FuncionarioBuilder.BuildNovoFuncionario(pessoa.Nome, pessoa.CPF);
             novoFuncionario.Usuario = this.aDService.criarUsuario(novoFuncionario);
 
-            /** TODO: evitar esse tipo de situação, se todo o processo estiver correto, não deveria
-            * perder uma transação por causa de problema de infra. Nesse caso, deve-se pensar em uma
-            * solução resiliente, como colocar numa fila, por exemplo.
-            */
-            if (this.funcionarioRepository.inserir(novoFuncionario))
+            if (novoFuncionario.ehValido())
             {
-                response.resultado = novoFuncionario;
-                response.sucesso = true;
-                this.comunicaoService.comunicarBoasVindas(novoFuncionario);
+                /** TODO: evitar esse tipo de situação, se todo o processo estiver correto, não deveria
+                * perder uma transação por causa de problema de infra. Nesse caso, deve-se pensar em uma
+                * solução resiliente, como colocar numa fila, por exemplo.
+                */
+                if (this.funcionarioRepository.inserir(novoFuncionario))
+                {
+                    response.resultado = novoFuncionario;
+                    response.sucesso = true;
+                    this.comunicaoService.comunicarBoasVindas(novoFuncionario);
+                }
+                else
+                {
+                    response.sucesso = false;
+                    response.Mensagens.Add("Funcionário não criado.");
+                }
             }
             else
             {
                 response.sucesso = false;
-                response.Mensagens.Add("Funcionário não criado.");
+                response.Mensagens.Add("Cadastro inválido.");
             }
 
             return response;
