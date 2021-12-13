@@ -1,7 +1,7 @@
 using System;
 using Exemplo.Core.ValueObjects;
 
-namespace Models
+namespace Exemplo.Core.Models
 {
     public class Funcionario
     {

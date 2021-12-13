@@ -1,4 +1,4 @@
-using Models;
+using Exemplo.Core.Models;
 
 namespace Exemplo.Core.Interfaces
 {

@@ -1,6 +1,6 @@
 using Exemplo.Core.DTO;
 using Exemplo.Core.Interfaces;
-using Models;
+using Exemplo.Core.Models;
 
 namespace Exemplo.Core.Tests
 {

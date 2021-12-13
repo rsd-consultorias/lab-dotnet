@@ -1,6 +1,8 @@
 using System;
 using Exemplo.Core.ApplicationServices;
 using Exemplo.Core.DTO;
+using Exemplo.Core.Models;
+using Exemplo.Core.Models.EstadosAdmissao;
 using NUnit.Framework;
 
 namespace Exemplo.Core.Tests
@@ -35,6 +37,24 @@ namespace Exemplo.Core.Tests
 
             Assert.False(response.sucesso, "Não pode admitir a pessoa");
             Assert.AreEqual(response.Mensagens[0], "Candidato inadimissível devido antecedentes graves.");
+        }
+
+
+        [Test]
+        public void Teste()
+        {
+            var processo = new ProcessoAdmissao(pessoaComAntecendentesGraves, new EstadoIniciado());
+            // Estado: Iniciado
+            System.Console.WriteLine($"### Estado atual: {processo.Estado}");
+            
+            // Estado: AnaliseAntecedentes
+            processo.Aprovar();
+            System.Console.WriteLine($"### Estado atual: {processo.Estado}");
+
+            // Estado: AdmissaoFinalizada
+            processo.Aprovar();
+            System.Console.WriteLine($"### Estado atual: {processo.Estado}");
+
         }
     }
 }
